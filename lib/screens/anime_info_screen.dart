@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../models/animeDB_model.dart';
+import 'package:url_launcher/url_launcher.dart' as ul;
 
 class AnimeInfo extends StatelessWidget {
   Anime anime;
+
   AnimeInfo(this.anime);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,7 +53,31 @@ class AnimeInfo extends StatelessWidget {
                   '${anime.synopsis}',
                   textAlign: TextAlign.justify,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                )
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    Text('Trailer:'),
+                    TextButton(
+                        onPressed: () {
+                          if (anime.trailerLink != null)
+                            ul.launchUrl(Uri.parse('${anime.trailerLink}'));
+                        },
+                        child: Expanded(
+                          child: Text(
+                            anime.trailerLink == null
+                                ? '***Cant find Trailer***'
+                                : '${anime.trailerLink}',
+                            style: TextStyle(
+                                color: anime.trailerLink == null
+                                    ? Colors.white
+                                    : Colors.blue),
+                          ),
+                        ))
+                  ],
+                ),
               ],
             ),
           ),

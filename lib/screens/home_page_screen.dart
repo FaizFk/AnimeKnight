@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
       isSpinning = true;
     });
 
-    animeList = await AM.createAnimeList(1);
+    animeList = await AM.createAnimeList(4);
     setState(() {
       isSpinning = false;
     });
