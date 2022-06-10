@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark().copyWith(backgroundColor: Colors.black),
+      theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
       home: Scaffold(
         body: SafeArea(
           child: HomePage(),
