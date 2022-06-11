@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../models/animeDB_model.dart';
 import 'package:url_launcher/url_launcher.dart' as ul;
 
