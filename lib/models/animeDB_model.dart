@@ -47,3 +47,45 @@ Future<List<Anime>> createAnimeList(int pagenumber) async {
   }
   return animeList;
 }
+
+Future<List<Anime>> createAnimeSearchList(String query) async {
+  List<Anime> animeSearchList = [];
+  if (query.length > 3) {
+    List? data;
+    var animeData;
+    try {
+      var res = await http.get(
+          Uri.parse('https://api.jikan.moe/v3/search/anime?q=$query&page=1'));
+      data = jsonDecode(res.body)['results'];
+    } catch (e) {
+      print(e);
+    }
+
+    if (data != null) {
+      for (int i = 0; i < data.length; i++) {
+        int malID = data[i]['mal_id'];
+        try {
+          var res2 = await http
+              .get(Uri.parse('https://api.jikan.moe/v4/anime/$malID/full'));
+          animeData = jsonDecode(res2.body)['data'];
+        } catch (e) {
+          print(e);
+        }
+        if (animeData != null) {
+          Anime anime = Anime(
+            smallImageURL: animeData['images']['jpg']['image_url'],
+            bigImageURL: animeData['images']['jpg']['large_image_url'] == null
+                ? animeData['images']['jpg']['image_url']
+                : animeData['images']['jpg']['large_image_url'],
+            title: animeData['title'],
+            rating: animeData['score'],
+            synopsis: animeData['synopsis'],
+            trailerLink: animeData['trailer']['url'],
+          );
+          animeSearchList.add(anime);
+        }
+      }
+    }
+  }
+  return animeSearchList;
+}
